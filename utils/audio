@@ -1,0 +1,46 @@
+#!/usr/bin/env zsh
+
+if [[ -z "$1" ]] then
+    echo "Invalid command! For help use 'audio help'"
+    exit 1
+fi
+
+function print_help() {
+    echo "audio help|h"
+    echo "audio list"
+    echo "audio select SINKID"
+    echo "audio interactive|i"
+}
+
+case $1 in
+    "list")
+        pactl list short sinks
+        ;;
+    "select")
+        if [[ -z "$2" ]] then
+            echo "Invalid sinkId! Use 'audio list' to get a list of all availiable devices"
+            exit 1
+        fi
+        pactl set-default-sink $2
+        ;;
+    "i")
+        ;&
+    "interactive")
+        pactl list short sinks
+        vared -p "SinkID: " -c sinkID
+        if [[ -z "$sinkID" ]] then
+            echo "Invalid sinkID!"
+            exit 1
+        fi
+        pactl set-default-sink $sinkID
+        ;;
+    "h")
+        ;&
+    "help")
+        print_help
+        ;;
+    *)
+        echo "Invalid command! For help use 'audio help'"
+        exit 1
+        ;;
+esac

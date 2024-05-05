@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+alias rlzsh='source $HOME/.zshrc'
+
+alias l='ls'
+alias ll='ls -l'
+alias la='ls -la'

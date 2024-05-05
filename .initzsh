@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+# Setup shell
+USE_POWERLINE="true"
+HAS_WIDECHARS="false"
+
+# Setup config path and PATH
+export SHELL_CFG_DIR=$HOME/.shellCfg
+export PATH=$PATH:$SHELL_CFG_DIR/utils
+
+chmod +x $SHELL_CFG_DIR/utils/*
+
+# Load all config scripts
+source $SHELL_CFG_DIR/.exports
+source $SHELL_CFG_DIR/.aliases
+source $SHELL_CFG_DIR/.functions
+source $SHELL_CFG_DIR/.zsh_prompt

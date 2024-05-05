@@ -1,0 +1,72 @@
+#!/usr/bin/env zsh
+
+### COLORS ###
+COLOR_DECO='{white}'
+COLOR_GIT='{magenta}'
+COLOR_NODE='{green}'
+COLOR_USER='{cyan}'
+COLOR_PATH='{cyan}'
+COLOR_FAIL='{red}'
+COLOR_SUCCESS='{green}'
+
+### TEXT DECORATION ###
+TEXT_BOLD_START='%B'
+TEXT_BOLD_END='%b'
+
+### TEMP VARS ###
+START_TIME=now
+
+### HELPERS ###
+function get_git_branch() {
+    echo -n $(git branch --show-current 2> /dev/null)
+}
+
+function get_node_version() {
+    echo -n $(node -v 2> /dev/null)
+}
+
+function get_info_bar() {
+    local returnStr=()
+
+    local isGit=$(git rev-parse --inside-tree $(pwd) 2> /dev/null)
+    local isNodeProject=$(search-up package.json 2> /dev/null)
+
+    if [[ $isGit != '' ]] then
+        returnStr+=$TEXT_BOLD_START'%F'$COLOR_GIT'git='$TEXT_BOLD_END$(get_git_branch)
+    fi
+
+    if [[ $isNodeProject != '' ]] then
+        if [[ $ENFORCE_NODE_VERSION = true ]] then
+            nvm use 2> /dev/null
+        fi
+
+        returnStr+=$TEXT_BOLD_START'%F'$COLOR_NODE'node='$TEXT_BOLD_END$(get_node_version)
+    fi
+
+    if [[ $returnStr = '' ]] then
+        echo -n '%F{yellow} - '
+        return
+    fi
+
+    echo -n ${(j: :)returnStr}
+}
+
+function get_right_info() {
+    local returnStr=()
+    
+    local lastStatus="$?"
+
+    if [[ $lastStatus = "0" ]] then
+        returnStr+='%F'$COLOR_SUCCESS'%K'$COLOR_SUCCESS'%f✓ '$lastStatus
+    else
+        returnStr+='%F'$COLOR_FAIL'%K'$COLOR_FAIL'%f⨯ '$lastStatus
+    fi
+
+    echo -n ${(j: :)returnStr}'%k%f'
+}
+
+### PROMPT ###
+setopt PROMPT_SUBST
+PROMPT='%F$COLOR_DECO╭─(%F$COLOR_USER%n%F$COLOR_DECO) [%F$COLOR_PATH%2~%F$COLOR_DECO] ($(get_info_bar)%F$COLOR_DECO)
+╰─%#%f '
+RPROMPT='$(get_right_info) '
