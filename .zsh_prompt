@@ -4,6 +4,7 @@
 COLOR_DECO='{white}'
 COLOR_GIT='{magenta}'
 COLOR_NODE='{green}'
+COLOR_DOCKER='{cyan}'
 COLOR_USER='{cyan}'
 COLOR_PATH='{cyan}'
 COLOR_FAIL='{red}'
@@ -25,11 +26,25 @@ function get_node_version() {
     echo -n $(node -v 2> /dev/null)
 }
 
+function get_docker_version() {
+    local dockerVersion=( $(docker -v) )
+
+    echo -n ${dockerVersion[3]}
+}
+
+function get_docker_compose_version() {
+    local dockerComposeVersion=( $(docker-compose -v) )
+
+    echo -n ${dockerComposeVersion[4]}
+}
+
 function get_info_bar() {
     local returnStr=()
 
     local isGit=$(git rev-parse --inside-tree $(pwd) 2> /dev/null)
     local isNodeProject=$(search-up package.json 2> /dev/null)
+    local hasDockerFile=$(search-up Dockerfile 2> /dev/null)
+    local hasDockerCompose=$(search-up docker-compose.yaml 2> /dev/null)
 
     if [[ $isGit != '' ]] then
         returnStr+=$TEXT_BOLD_START'%F'$COLOR_GIT'git='$TEXT_BOLD_END$(get_git_branch)
@@ -41,6 +56,14 @@ function get_info_bar() {
         fi
 
         returnStr+=$TEXT_BOLD_START'%F'$COLOR_NODE'node='$TEXT_BOLD_END$(get_node_version)
+    fi
+
+    if [[ $hasDockerFile != '' ]] then
+        returnStr+=$TEXT_BOLD_START'%F'$COLOR_DOCKER'docker='$TEXT_BOLD_END$(get_docker_version)
+    fi
+
+    if [[ $hasDockerCompose != '' ]] then
+        returnStr+=$TEXT_BOLD_START'%F'$COLOR_DOCKER'docker-compose='$TEXT_BOLD_END$(get_docker_compose_version)
     fi
 
     if [[ $returnStr = '' ]] then

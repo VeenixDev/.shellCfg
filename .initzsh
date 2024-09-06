@@ -1,14 +1,15 @@
 #!/usr/bin/env zsh
 
-# Setup shell
-USE_POWERLINE="true"
-HAS_WIDECHARS="false"
-
 # Setup config path and PATH
 export SHELL_CFG_DIR=$HOME/.shellCfg
 export PATH=$PATH:$SHELL_CFG_DIR/utils
 
 chmod +x $SHELL_CFG_DIR/utils/*
+
+# Load plugins
+setopt interactivecomments
+source $SHELL_CFG_DIR/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source $SHELL_CFG_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 # Load all config scripts
 source $SHELL_CFG_DIR/.exports
