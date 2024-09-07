@@ -12,3 +12,28 @@ function gitc() {
 	done;
 	eval "git commit -m \"${(j:" -m ":)temp}\""
 }
+
+function installShellPlugins() {
+	local plugins=(${(@s: :)ZSH_PLUGINS})
+	local pluginCount=${#plugins}
+	local prevDir=$(pwd)
+
+	local failCount=0
+
+	cd $SHELL_CFG_DIR/plugins
+	for p in $plugins; do
+		git clone --depth 1 -- $p
+		if [[ $? != "0" ]] then
+			failCount=$((failCount + 1))
+		fi
+	done;
+
+	cd $prevDir
+
+	local installedCount=$((pluginCount - failCount))
+	if [[ $failCount -gt 0 ]] then
+		print -P "%F{red}Failed to install $failCount plugin(s)!%f\n%F{yellow}Done installing the other $installedCount plugin(s)!%f\n"
+	else
+		print -P "%F{green}Done installing $installedCount plugin(s)!%f\n"
+	fi
+}
