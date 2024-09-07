@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-lastStatus=$?
-
 # Setup config path and PATH
 export SHELL_CFG_DIR=$HOME/.shellCfg
 export PATH=$PATH:$SHELL_CFG_DIR/utils

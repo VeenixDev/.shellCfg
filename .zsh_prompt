@@ -72,8 +72,9 @@ function get_info_bar() {
 }
 
 function get_right_info() {
+    local lastStatus="$?"
     local returnStr=()
-    local lastStatus=$?
+
     if [[ $lastStatus = "0" ]] then
         returnStr+='%F'$COLOR_SUCCESS'%K'$COLOR_SUCCESS'%f✓ '$lastStatus
     else
