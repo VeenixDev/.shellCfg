@@ -1,1 +1,14 @@
 #!/usr/bin/env zsh
+function gitc() {
+	if [[ $# -eq 0 ]] then
+		print -P "%F{red}Error: Please specify commit message(s)!%f\n"
+		return 128
+	fi
+
+	local temp=()
+
+	for x in $*; do
+		temp+=$x	
+	done;
+	git commit -m "${(j:" -m ":)temp}"
+}

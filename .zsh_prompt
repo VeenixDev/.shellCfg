@@ -14,9 +14,6 @@ COLOR_SUCCESS='{green}'
 TEXT_BOLD_START='%B'
 TEXT_BOLD_END='%b'
 
-### TEMP VARS ###
-START_TIME=now
-
 ### HELPERS ###
 function get_git_branch() {
     echo -n $(git branch --show-current 2> /dev/null)
@@ -76,20 +73,20 @@ function get_info_bar() {
 
 function get_right_info() {
     local returnStr=()
-    
-    local lastStatus="$?"
-
+    local lastStatus=$?
     if [[ $lastStatus = "0" ]] then
         returnStr+='%F'$COLOR_SUCCESS'%K'$COLOR_SUCCESS'%f✓ '$lastStatus
     else
-        returnStr+='%F'$COLOR_FAIL'%K'$COLOR_FAIL'%f⨯ '$lastStatus
+        returnStr+='%F'$COLOR_FAIL'%K'$COLOR_FAIL'%f✗ '$lastStatus
     fi
 
     echo -n ${(j: :)returnStr}'%k%f'
 }
 
 ### PROMPT ###
+returnVal="$?"
 setopt PROMPT_SUBST
+RPROMPT='$(get_right_info $returnVal)'
 PROMPT='%F$COLOR_DECO╭─(%F$COLOR_USER%n%F$COLOR_DECO) [%F$COLOR_PATH%2~%F$COLOR_DECO] ($(get_info_bar)%F$COLOR_DECO)
 ╰─%#%f '
-RPROMPT='$(get_right_info) '
+#RPROMPT='$(get_right_info $returnVal)'

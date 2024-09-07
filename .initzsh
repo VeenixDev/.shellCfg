@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+lastStatus=$?
+
 # Setup config path and PATH
 export SHELL_CFG_DIR=$HOME/.shellCfg
 export PATH=$PATH:$SHELL_CFG_DIR/utils
@@ -18,4 +20,7 @@ source $SHELL_CFG_DIR/.functions
 source $SHELL_CFG_DIR/.zsh_prompt
 
 # Clear screen
-clear
+if [[ $SHELL_INITIALIZED != 'true' ]] then
+	clear
+	SHELL_INITIALIZED='true'
+fi
