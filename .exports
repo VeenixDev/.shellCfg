@@ -5,6 +5,9 @@ export ENFORCE_NODE_VERSION=true
 
 export WORKSPACE=$HOME/workspace
 
+### System ###
+export EDITOR=vim
+
 ### [N]ode[V]ersion[M]anager ###
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
