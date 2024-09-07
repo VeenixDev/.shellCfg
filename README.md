@@ -6,7 +6,9 @@ This is a personal repository to versionise my terminal setup. everything in her
 
 ```
 git clone --depth 1 -- https://github.com/VeenixDev/.shellCfg.git 
-```
+``
+
+Add `source .shellCfg/.initzsh` to your .zshrc file.
 
 After that put the links to the git repo of all the plugins you want into `.exports::ZSH\_PLUGINS`, after this run `installShellPlugins`.
 
