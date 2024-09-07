@@ -16,3 +16,6 @@ source $SHELL_CFG_DIR/.exports
 source $SHELL_CFG_DIR/.aliases
 source $SHELL_CFG_DIR/.functions
 source $SHELL_CFG_DIR/.zsh_prompt
+
+# Clear screen
+clear
