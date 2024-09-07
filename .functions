@@ -10,5 +10,5 @@ function gitc() {
 	for x in $*; do
 		temp+=$x	
 	done;
-	git commit -m "${(j:" -m ":)temp}"
+	git commit -m \"${(j:" -m ":)temp}\"
 }
