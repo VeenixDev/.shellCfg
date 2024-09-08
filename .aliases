@@ -9,6 +9,7 @@ alias lh='ls -lah'
 
 alias gita='git add'
 alias gitp='git push'
+alias gits='git status'
 alias gitpu='git push -u origin/${git branch --show-current}'
 alias gitpf='git push --force-with-lease'
 
