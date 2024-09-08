@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin zsh
 
 ### COLORS ###
 COLOR_DECO='{white}'
@@ -49,7 +49,7 @@ function get_info_bar() {
 
     if [[ $isNodeProject != '' ]] then
         if [[ $ENFORCE_NODE_VERSION = true ]] then
-            nvm use 2> /dev/null
+            nvm use --silent 2> /dev/null
         fi
 
         returnStr+=$TEXT_BOLD_START'%F'$COLOR_NODE'node='$TEXT_BOLD_END$(get_node_version)

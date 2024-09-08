@@ -1,0 +1,89 @@
+#!/usr/bin zsh
+function getPlugins() {
+    if [[ ! -f "$SHELL_CFG_DIR/pluginManager/plugins.txt" ]] then
+      touch $SHELL_CFG_DIR/pluginManager/plugins.txt
+    fi
+    typeset -a plugins=("${(f)"$(<$SHELL_CFG_DIR/pluginManager/plugins.txt)"}")
+
+    echo $plugins
+}
+
+function getPackageManager() {
+  declare -A osInfo
+  osInfo[/etc/arch-release]=pacman
+
+  for f in ${(k)osInfo}; do
+    if [[ -f $f ]] then
+      echo ${osInfo[$f]}
+      return
+    fi
+  done
+
+  echo "N/A"
+}
+
+function getPluginType() {
+  if [[ $# != 1 ]] then
+    print -P "%F{red}Please provide the source to be checked%f\n"
+    return
+  fi
+
+  case $1 in
+  http://github.com*)
+    ;&
+  https://github.com*)
+    echo "git"
+    ;;
+  http*.tar.gz)
+    echo "web (tar.gz)"
+    ;;
+  http*)
+    echo "web"
+    ;;
+  *)
+    echo "$(getPackageManager)"
+    ;;
+  esac
+}
+
+function addPlugin() {
+  if [[ $# != 2 ]] then
+    print -P "%F{red}Error: Usage 'addPlugin <name> <url|packagename>%f\n"
+    return
+  fi
+  local pluginName=$1
+  local pluginSource=$2
+
+  if (( $getPlugins[(Ie)"$pluginName"] )) then
+    print -P "%F{yellow}Plugin $pluginname already installed!%f\n"
+    return
+  fi
+
+  echo "$pluginName $pluginSource" >> $SHELL_CFG_DIR/pluginManager/plugins.txt
+  echo "Added $pluginName to the plugin list install plugins to enable it"
+}
+
+### Start of script ###
+if [[ $# == 0 ]] then
+  print -P "%F{red}Please provide the action you want to do, use 'pluginManager help' to get a list of all possible actions"
+  return
+fi
+
+case $1 in
+help)
+  echo "list \t-- lists all installed plugins"
+  echo "add <name> <source>\t-- installs a plugin"
+  ;;
+list)
+  local plugins=($(getPlugins))
+
+  for ((p = 1; p < ${#plugins}; p += 2)); do
+    local pluginName=${plugins[$p]}
+    local pluginSource=${plugins[$(($p + 1))]}
+    echo "$pluginName\t-- $(getPluginType $pluginSource) -- $pluginSource"
+  done
+  ;;
+add)
+  addPlugin $2 $3
+  ;;
+esac

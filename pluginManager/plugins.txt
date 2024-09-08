@@ -1,0 +1,5 @@
+zsh-syntax-highlight https://github.com/zsh-users/zsh-syntax-highlighting.git
+zsh-autocomplete https://github.com/marlonrichert/zsh-autocomplete.git
+test/pacman plugin
+test/webtar http://example.com/plugin.tar.gz
+test/web http://example.com/plugin
