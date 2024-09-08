@@ -1,4 +1,4 @@
-#!/usr/bin zsh
+#!/usr/bin/env zsh
 function getPlugins() {
     if [[ ! -f "$SHELL_CFG_DIR/pluginManager/plugins.txt" ]] then
       touch $SHELL_CFG_DIR/pluginManager/plugins.txt
