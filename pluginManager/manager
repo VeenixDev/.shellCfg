@@ -40,6 +40,9 @@ function getPluginType() {
   http*)
     echo "web"
     ;;
+  dir*)
+    echo "dir"
+    ;;
   *)
     echo "$(getPackageManager)"
     ;;

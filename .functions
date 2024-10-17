@@ -13,6 +13,16 @@ function gitc() {
 	eval "git commit -m \"${(j:" -m ":)temp}\""
 }
 
+function updateDiscord() {
+	local originalDir=$(pwd)
+	cd $PROGRAMS
+
+	wget -q --show-progress -O discord.tar.gz -t 5 "https://discord.com/api/download/stable?platform=linux&format=tar.gz"
+	rm -rf $PROGRAMS/Discord
+	tar -xf discord.tar.gz
+	rm discord.tar.gz
+}
+
 function installShellPlugins() {
 	local plugins=(${(@s: :)ZSH_PLUGINS})
 	local pluginCount=${#plugins}

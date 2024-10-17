@@ -4,6 +4,7 @@
 export ENFORCE_NODE_VERSION=true
 
 export WORKSPACE=$HOME/workspace
+export PROGRAMS=$HOME/programs
 
 export ZSH_PLUGINS="https://github.com/zsh-users/zsh-syntax-highlighting.git https://github.com/marlonrichert/zsh-autocomplete.git"
 ### System ###
