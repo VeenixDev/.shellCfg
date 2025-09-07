@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+# Ensure pacman is up to date and keyring is populated
+pacman -Syu
+pacman-key --init
+pacman-key --populate archlinux
+
+# Install configured packages
+cat "$SHELL_CFG_DIR/data/packagelist.txt" | xargs sudo pacman --noconfirm -Sy
+
+# Ensure git is installed
+if [[ $(pacman -Qe | grep git) == '' ]] then
+  pacman -Sy git
+fi
+
+# Create default directories
+mkdir ~/workspace
+mkdir ~/programs
+
+# Install additional programs
+cd ~/programs || exit 1
+
+## Install Discord
+updateDiscord
+## Install JetBrains Toolbox
+if [[ ! $(git checkout https://aur.archlinux.org/jetbrains-toolbox.git) ]] then
+  echo "Failed to checkout jetbrains-toolbox, cannot proceed with setting up the system"
+  exit 1
+fi
+
+cd jetbrains-toolbox || exit
+
+if [[ ! $(makepkg) ]] then
+  echo "Failed to run makepkg for jetbrains toolbox, cannot proceed with setting up the system"
+  exit 1
+fi
+
+pacman -U jetbrains-toolbox*.pkg.tar.zst

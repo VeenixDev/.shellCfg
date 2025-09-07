@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 function getPlugins() {
-    if [[ ! -f "$SHELL_CFG_DIR/pluginManager/plugins.txt" ]] then
-      touch $SHELL_CFG_DIR/pluginManager/plugins.txt
+    if [[ ! -f "$SHELL_CFG_DIR/data/plugins.txt" ]] then
+      touch $SHELL_CFG_DIR/data/plugins.txt
     fi
-    typeset -a plugins=("${(f)"$(<$SHELL_CFG_DIR/pluginManager/plugins.txt)"}")
+    typeset -a plugins=("${(f)"$(<$SHELL_CFG_DIR/data/plugins.txt)"}")
 
     echo $plugins
 }
@@ -62,7 +62,7 @@ function addPlugin() {
     return
   fi
 
-  echo "$pluginName $pluginSource" >> $SHELL_CFG_DIR/pluginManager/plugins.txt
+  echo "$pluginName $pluginSource" >> $SHELL_CFG_DIR/data/plugins.txt
   echo "Added $pluginName to the plugin list install plugins to enable it"
 }
 

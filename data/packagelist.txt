@@ -1,0 +1,6 @@
+git
+fuse
+libxslt
+rxvt-unicode
+rsync
+zsh
